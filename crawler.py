@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from urllib.parse import quote
 import requests
 import json
@@ -6,7 +6,9 @@ from concurrent import futures
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 
+'''得到百度图片的真实下载地址'''
 
+# phantomjs 设置
 dcap = dict(DesiredCapabilities.PHANTOMJS)
 dcap["phantomjs.page.settings.userAgent"] = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.100"
@@ -18,14 +20,14 @@ def my_print(msg, quiet=False):
         print(msg)
 
 
-def gen_query_url(keywords, face_only=False):
-    base_url = "https://image.baidu.com/search/index?tn=baiduimage"
-    keywords_str = "&word" + quote(keywords)
-    query_url = base_url + keywords_str
-    if face_only is True:
-        query_url += "&face=1"
-
-    return query_url
+# def gen_query_url(keywords, face_only=False):
+#     base_url = "https://image.baidu.com/search/index?tn=baiduimage"
+#     keywords_str = "&word" + quote(keywords)
+#     query_url = base_url + keywords_str
+#     if face_only is True:
+#         query_url += "&face=1"
+#
+#     return query_url
 
 
 def get_image_url(keywords, max_number=10000, face_only=False):
@@ -105,8 +107,8 @@ def crawl_image_urls(keywords, max_number=10000, face_only=False, browser="phant
         my_print("Number:  {}".format(max_number), quiet)
     my_print("Face Only:  {}".format(str(face_only)), quiet)
     my_print("Browser:  {}".format(browser), quiet)
-    query_url = gen_query_url(keywords, face_only)
-    my_print("Query URL:  " + query_url, quiet)
+    # query_url = gen_query_url(keywords, face_only)
+    # my_print("Query URL:  " + query_url, quiet)
 
     if browser == "chrome":
         chrome_options = webdriver.ChromeOptions()

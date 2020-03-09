@@ -1,6 +1,7 @@
-/data
 /bin
-/download_images
+/Raw
+/data2
+/predict
 /.idea
 /.vscode
 /ghostdriver.log

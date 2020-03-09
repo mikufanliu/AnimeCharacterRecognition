@@ -1,11 +1,13 @@
-# -*-coding=utf-8-*-
+# -*-coding:utf-8-*-
 from imageai.Prediction.Custom import ModelTraining
 import os
 
+'''训练模型'''
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # 关闭tensorflow warning
 
-DATA_PATH = "data2"
-TRAIN_NUM = 50  # 训练次数
+DATA_PATH = "data2"  # 数据集路径
+TRAIN_NUM = 30  # 训练次数
 BATCH = 5   # 批次
 
 
