@@ -11,7 +11,7 @@ import crawler
 
 # 下载基本参数设置，更多参数设置在main()函数处
 NAME_LIST = "characters_name_list.txt"  # 导入需要获取关键字文件，每个关键字一行
-MAX_NUM = 10  # 每个关键字下载数量
+MAX_NUM = 60  # 每个关键字下载数量
 OUTPUT_PATH = "./Raw"  # 下载图片书保存目录
 
 headers = {
@@ -70,11 +70,16 @@ def download_images(image_urls, dst_dir, keywords, file_prefix="img", concurrenc
         concurrent.futures.wait(future_list, timeout=180)
 
 
-def main(list_file, output="./Raw", max_number=100, threads=50, timeout=20, face_only=False,
+def main(list_file, output="./Raw", max_number=100, threads=50, timeout=20, face_only=True,
          browser="phantomjs", quiet=False, file_prefix="img"):
     with open(list_file, encoding="utf-8") as keywords_list:
         for keywords in keywords_list:
             keywords = keywords.rstrip()  # 去除换行符
+            if keywords == "":  # 跳过空行
+                continue
+            if os.path.exists(os.path.join(output, keywords)):  # 查看是否已经下载
+                print("[warn: ] [{}] is already downloaded, downloader will skip [{}]".format(keywords, keywords))
+                continue
             crawled_urls = crawler.crawl_image_urls(keywords, max_number=max_number, face_only=face_only,
                                                     browser=browser, quiet=quiet)
 
