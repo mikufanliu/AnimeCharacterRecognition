@@ -6,6 +6,10 @@ import os
 import concurrent.futures
 import requests
 import crawler
+from fake_useragent import UserAgent
+
+import time
+import random
 
 '''根据关键词爬取并下载图片'''
 
@@ -13,17 +17,23 @@ import crawler
 NAME_LIST = "characters_name_list.txt"  # 导入需要获取关键字文件，每个关键字一行
 MAX_NUM = 60  # 每个关键字下载数量
 OUTPUT_PATH = "./Raw"  # 下载图片书保存目录
-
-headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Proxy-Connection": "keep-alive",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36",
-    "Accept-Encoding": "gzip, deflate, sdch",
-}
+TIME_OUT = 20  # 设置超时
+DELAY = 1  # 随机延迟0~1秒
 
 
-def download_image(image_url, dst_dir, file_name, timeout=20):
+def get_random_headers():
+    ua = UserAgent().random
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Proxy-Connection": "keep-alive",
+        "User-Agent": ua,
+        "Accept-Encoding": "gzip, deflate, sdch",
+    }
+    return headers
+
+
+def download_image(image_url, dst_dir, file_name, timeout=20, time_delay=1):
+    time.sleep(random.randint(0, time_delay))  # 暂停0~time_delay秒的整数秒
     response = None
     file_path = os.path.join(dst_dir, file_name)
     try_times = 0
@@ -31,7 +41,7 @@ def download_image(image_url, dst_dir, file_name, timeout=20):
         try:
             try_times += 1
             response = requests.get(
-                image_url, headers=headers, timeout=timeout)
+                image_url, headers=get_random_headers(), timeout=timeout)
             with open(file_path, 'wb') as f:
                 f.write(response.content)
             response.close()
@@ -55,7 +65,7 @@ def download_image(image_url, dst_dir, file_name, timeout=20):
             break
 
 
-def download_images(image_urls, dst_dir, keywords, file_prefix="img", concurrency=50, timeout=20):
+def download_images(image_urls, dst_dir, keywords, file_prefix="img", concurrency=50, timeout=20, time_delay=1):
     with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:
         future_list = list()
         count = 0
@@ -65,12 +75,12 @@ def download_images(image_urls, dst_dir, keywords, file_prefix="img", concurrenc
         for image_url in image_urls:
             file_name = file_prefix + "_" + "%04d" % count
             future_list.append(executor.submit(
-                download_image, image_url, dst_dir, file_name, timeout))
+                download_image, image_url, dst_dir, file_name, timeout, time_delay))
             count += 1
         concurrent.futures.wait(future_list, timeout=180)
 
 
-def main(list_file, output="./Raw", max_number=100, threads=50, timeout=20, face_only=True,
+def main(list_file, output="./Raw", max_number=100, threads=50, timeout=20, time_delay=3, face_only=True,
          browser="phantomjs", quiet=False, file_prefix="img"):
     with open(list_file, encoding="utf-8") as keywords_list:
         for keywords in keywords_list:
@@ -84,11 +94,11 @@ def main(list_file, output="./Raw", max_number=100, threads=50, timeout=20, face
                                                     browser=browser, quiet=quiet)
 
             download_images(image_urls=crawled_urls, dst_dir=output, keywords=keywords,
-                            concurrency=threads, timeout=timeout, file_prefix=file_prefix)
+                            concurrency=threads, timeout=timeout,time_delay=time_delay, file_prefix=file_prefix)
 
             img_count = len(os.listdir(os.path.join(output, keywords)))
             print("[{}]: get {} image(s)".format(keywords, img_count))
 
 
 if __name__ == '__main__':
-    main(list_file=NAME_LIST, max_number=MAX_NUM, output=OUTPUT_PATH)
+    main(list_file=NAME_LIST, max_number=MAX_NUM, output=OUTPUT_PATH, time_delay=DELAY)
