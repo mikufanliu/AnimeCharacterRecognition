@@ -1,0 +1,58 @@
+body, html {
+    width: 100%;
+    height: 100%;
+}
+
+.wrapper {
+    position: relative;
+    height: 100%;
+
+}
+
+.header {
+    width: 100%;
+    height: 8%;
+    background: #e4faff;
+    border-bottom: beige 1px;
+}
+
+.content-wrapper {
+    /*position: relative;*/
+    display: flex;
+    height: 92%;
+    width: 100%;
+    url(../img/bs-docs-masthead-pattern.png)
+}
+
+.input-wrapper {
+    text-align: center;
+    position: relative;
+    width: 50%;
+    background: #f4ffe8;
+    padding: 20px;
+
+
+}
+
+
+.img {
+    height: 400px;
+}
+
+.predict-result {
+    position: relative;
+    /*border-left: 1px darkgray dashed;*/
+    width: 50%;
+    background: #fffff5;
+
+
+}
+
+.file {
+    display: none;
+}
+
+.predict {
+
+    background: cornsilk;
+}

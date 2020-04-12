@@ -6,12 +6,12 @@ import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # 关闭tensorflow warning
 
-DATA_PATH = "data2"  # 数据集路径
+DATA_PATH = 'data2'  # 数据集路径
 TRAIN_NUM = 30  # 训练次数
 BATCH = 5   # 批次
 
 
-def train(data_path, train_num, batch):
+def train(data_path=DATA_PATH, train_num=TRAIN_NUM, batch=BATCH):
     if not os.path.exists(data_path):
         print("Train data path is not exists")
         return

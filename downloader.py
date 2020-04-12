@@ -18,7 +18,7 @@ NAME_LIST = "characters_name_list.txt"  # 导入需要获取关键字文件，�
 MAX_NUM = 60  # 每个关键字下载数量
 OUTPUT_PATH = "./Raw"  # 下载图片书保存目录
 TIME_OUT = 20  # 设置超时
-DELAY = 1  # 随机延迟0~1秒
+DELAY = 1  # 随机下载延迟0~1秒
 
 
 def get_random_headers():
