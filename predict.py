@@ -7,9 +7,9 @@ import json
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-IMAGE_PATH = "uploader/2020-03-09_230109.png"  # 测试图片路径
-MODEL_PATH = "data2/models/model_ex-001_acc-0.400000.h5"  # 模型路径
-JSON_PATH = "data2/json/model_class.json"  # json文件路径
+IMAGE_PATH = "uploader/80.jpg"  # 测试图片路径
+MODEL_PATH = "data/models/model_ex-150_acc-0.883871.h5"  # 模型路径
+JSON_PATH = "data/json/model_class.json"  # json文件路径
 RESULT_COUNT = 3  # 显示预测结果的数量
 
 prediction = CustomImagePrediction()
@@ -23,6 +23,7 @@ def predict(img_path, model_path=MODEL_PATH, json_path=JSON_PATH, result_count=R
 
     with open(json_path) as f:
         num_obj = len(json.load(f))
+        print(num_obj)
 
     prediction.setModelPath(model_path)
     prediction.setJsonPath(json_path)
