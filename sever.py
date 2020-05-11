@@ -4,8 +4,9 @@ from flask import Flask, flash, request, redirect, url_for, render_template, sen
 from werkzeug.utils import secure_filename
 import predict
 
-UPLOAD_FOLDER = 'uploader'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'jif'}
+
+UPLOAD_FOLDER = 'uploader' # 路径设置
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'jif'} #图片类型
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

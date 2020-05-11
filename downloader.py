@@ -11,16 +11,9 @@ from fake_useragent import UserAgent
 import time
 import random
 
-'''根据关键词爬取并下载图片'''
-
-# 下载基本参数设置，更多参数设置在main()函数处
-NAME_LIST = "characters_name_list.txt"  # 导入需要获取关键字文件，每个关键字一行
-MAX_NUM = 60  # 每个关键字下载数量
-OUTPUT_PATH = "./Raw"  # 下载图片书保存目录
-TIME_OUT = 20  # 设置超时
-DELAY = 1  # 随机下载延迟0~1秒
 
 
+# 产生随机的header，防止被服务器识别出爬虫
 def get_random_headers():
     ua = UserAgent().random
     headers = {
